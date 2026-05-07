@@ -39,6 +39,9 @@ public:
   int getScore() const;
   bool isAlive() const;
   int getSizeOfSnake() const;
+  const std::deque<Point>& getSnake() const { return snake; }
+  Point getFood() const { return food; }
+  Direction getDirection() const { return dir; }
+  int getWidth() const { return width; }
+  int getHeight() const { return height; }
 };
-
-#endif
