@@ -1,10 +1,20 @@
-CXX = g++
+CXX      = g++
 CXXFLAGS = -std=c++17 -Wall -O2
-SOURCES = main.cpp game_state.cpp random_agent.cpp simulate.cpp
-TARGET = snake.exe
+
+SRCDIR  = src
+SOURCES = $(SRCDIR)/main.cpp        \
+          $(SRCDIR)/game_state.cpp  \
+          $(SRCDIR)/simulate.cpp    \
+          $(SRCDIR)/encode_state.cpp \
+          $(SRCDIR)/neural_net.cpp  \
+          $(SRCDIR)/neural_agent.cpp \
+          $(SRCDIR)/random_agent.cpp \
+          $(SRCDIR)/population.cpp
+
+TARGET  = snake.exe
 
 $(TARGET): $(SOURCES)
-	$(CXX) $(CXXFLAGS) $(SOURCES) -o $(TARGET)
+	$(CXX) $(CXXFLAGS) -Iinclude $(SOURCES) -o $(TARGET)
 
 clean:
 	rm -f $(TARGET)

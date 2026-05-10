@@ -9,16 +9,13 @@ GameState::GameState(int w, int h, uint32_t seed)
 }
 
 Point GameState::calculateNewHead() {
-  Point head = snake.front();
-  Point newHead = head;
-
+  Point newHead = snake.front();
   switch (dir) {
     case Direction::Up:    newHead.y -= 1; break;
     case Direction::Down:  newHead.y += 1; break;
     case Direction::Left:  newHead.x -= 1; break;
     case Direction::Right: newHead.x += 1; break;
   }
-
   return newHead;
 }
 
@@ -32,6 +29,8 @@ bool GameState::headTouchesWall(Point head) {
 }
 
 bool GameState::headTouchesBody(Point head) {
+  // If the snake is about to eat food it won't shrink from the tail this step,
+  // so include the tail segment in collision detection.
   bool willGrow = (head.x == food.x && head.y == food.y);
   auto end = willGrow ? snake.end() : std::prev(snake.end());
   for (auto it = snake.begin(); it != end; ++it) {
@@ -78,7 +77,6 @@ void GameState::step(Action action) {
   if (!alive) return;
 
   setDirection(action);
-
   Point newHead = calculateNewHead();
 
   if (headTouchesWall(newHead)) return;
@@ -86,9 +84,7 @@ void GameState::step(Action action) {
 
   snake.push_front(newHead);
 
-  bool willGrow = newHead.x == food.x && newHead.y == food.y;
-
-  if (willGrow) {
+  if (newHead.x == food.x && newHead.y == food.y) {
     ++score;
     stepsSinceFood = 0;
     spawnFood();
@@ -97,32 +93,24 @@ void GameState::step(Action action) {
     ++stepsSinceFood;
   }
 
-  if (stepsSinceFood > 100 * width) {
-    alive = false;
-  }
+  // Kill the snake if it loops without eating — prevents infinite games.
+  if (stepsSinceFood > 100 * width) alive = false;
 }
 
-int GameState::getScore() const { return score; }
-bool GameState::isAlive() const { return alive; }
-int GameState::getSizeOfSnake() const { return snake.size(); }
+int  GameState::getScore()       const { return score; }
+bool GameState::isAlive()        const { return alive; }
+int  GameState::getSizeOfSnake() const { return static_cast<int>(snake.size()); }
 
 void GameState::printGame() {
   std::vector<std::vector<char>> grid(height, std::vector<char>(width, '.'));
-
   grid[food.y][food.x] = '*';
-
-  for (auto it = snake.begin(); it != snake.end(); ++it) {
-    grid[it->y][it->x] = 'o';
-  }
-
+  for (const auto& seg : snake) grid[seg.y][seg.x] = 'o';
   grid[snake.front().y][snake.front().x] = '@';
 
+  std::cout << "\n\n";
   for (int y = 0; y < height; ++y) {
-    for (int x = 0; x < width; ++x) {
-      std::cout << grid[y][x];
-    }
+    for (int x = 0; x < width; ++x) std::cout << grid[y][x];
     std::cout << '\n';
   }
-
   std::cout << "Score: " << score << (alive ? "" : " (dead)") << '\n';
 }
