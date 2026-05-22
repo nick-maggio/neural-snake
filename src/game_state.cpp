@@ -94,7 +94,7 @@ void GameState::step(Action action) {
   }
 
   // Kill the snake if it loops without eating — prevents infinite games.
-  if (stepsSinceFood > 100 * width) alive = false;
+  if (stepsSinceFood > 80) alive = false;
 }
 
 int  GameState::getScore()       const { return score; }
