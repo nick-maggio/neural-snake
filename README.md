@@ -2,7 +2,7 @@
 
 A genetic algorithm that trains a small neural network to play Snake. Agents are evaluated by fitness score; the top 25% survive each generation, and the next generation is built from mutated copies of those elites. Training of the neural network uses multithreading across the CPU for accelerated training speeds. This project also include a from-scratch renderer that uses Win32 and DirectX 11 for custom rendering. As an engaging demonstration of the neural network's training, the top 4 performing agents' gameplay is rendered on the custom graphics system.
 
-<img width="800" height="425" alt="VideoProject1-ezgif com-video-to-gif-converter" src="https://github.com/user-attachments/assets/437bca7e-12da-4b30-a474-ed31393b5f12" />
+<img width="800" height="425" alt="VideoProject1-ezgif com-video-to-gif-converter (1)" src="https://github.com/user-attachments/assets/ed039e1b-a033-4c4d-bec6-afbf627bcf96" />
 
 ## Structure
 
