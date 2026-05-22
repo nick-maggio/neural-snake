@@ -1,6 +1,8 @@
 # neural-snake
 
-A genetic algorithm that trains a small neural network to play Snake. Agents are evaluated by fitness score; the top 25% survive each generation as elites, and the next generation is built from mutated copies of those elites. After training, the top four agents play simultaneously in a DirectX 11 window.
+A genetic algorithm that trains a small neural network to play Snake. Agents are evaluated by fitness score; the top 25% survive each generation, and the next generation is built from mutated copies of those elites. Training of the neural network uses multithreading across the CPU for accelerated training speeds. This project also include a from-scratch renderer that uses Win32 and DirectX 11 for custom rendering. As an engaging demonstration of the neural network's training, the top 4 performing agents' gameplay is rendered on the custom graphics system.
+
+<img width="800" height="425" alt="VideoProject1-ezgif com-video-to-gif-converter" src="https://github.com/user-attachments/assets/437bca7e-12da-4b30-a474-ed31393b5f12" />
 
 ## Structure
 
@@ -16,6 +18,10 @@ A genetic algorithm that trains a small neural network to play Snake. Agents are
 | `RandomAgent` | Random baseline agent |
 
 `src/train_cli.cpp` is a terminal-only entry point (no rendering) for debug use. As such, it is not included in the default build.
+
+## Renderer
+
+The project includes a custom renderer built from scratch with Win32 and DirectX 11. It creates a lightweight window, draws the top 4 performing agents from the first generation, and then draws the top 4 agents from the final generation in order to visualize the training of the network.
 
 ### Neural network
 
@@ -67,17 +73,13 @@ The quadratic score term strongly rewards food collection; the step penalty disc
 make
 ```
 
-Some users may need:
+Some users may instead need:
 
 ```bash
 mingW32-make
 ```
 
 Produces `snake.exe` in the project root.
-
-```bash
-make clean
-```
 
 ## Run
 
